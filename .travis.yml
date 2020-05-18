@@ -1,0 +1,26 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t baha/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true baha/react-test npm test
+
+after_success:
+  - docker build -t baha/multi-client ./client
+  - docker build -t baha/multi-nginx ./nginx
+  - docker build -t baha/multi-server ./server
+  - docker build -t baha/multi-worker ./worker
+
+  # Login to Docker CLI
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Take those images and push them to docker hub
+
+  - docker push baha/multi-client
+  - docker push baha/multi-nginx
+  - docker push baha/multi-server
+  - docker push baha/multi-worker
