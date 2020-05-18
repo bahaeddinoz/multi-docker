@@ -3,16 +3,16 @@ services:
   - docker
 
 before_install:
-  - docker build -t baha/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t bahaeddinoz/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true baha/react-test npm test
 
 after_success:
-  - docker build -t baha/multi-client ./client
-  - docker build -t baha/multi-nginx ./nginx
-  - docker build -t baha/multi-server ./server
-  - docker build -t baha/multi-worker ./worker
+  - docker build -t bahaeddinoz/multi-client ./client
+  - docker build -t bahaeddinoz/multi-nginx ./nginx
+  - docker build -t bahaeddinoz/multi-server ./server
+  - docker build -t bahaeddinoz/multi-worker ./worker
 
   # Login to Docker CLI
 
@@ -20,7 +20,7 @@ after_success:
 
   # Take those images and push them to docker hub
 
-  - docker push baha/multi-client
-  - docker push baha/multi-nginx
-  - docker push baha/multi-server
-  - docker push baha/multi-worker
+  - docker push bahaeddinoz/multi-client
+  - docker push bahaeddinoz/multi-nginx
+  - docker push bahaeddinoz/multi-server
+  - docker push bahaeddinoz/multi-worker
